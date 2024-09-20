@@ -28,21 +28,21 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(apiResponse);
     }
 
-//    @ExceptionHandler(value = MethodArgumentNotValidException.class)
-//    ResponseEntity<ApiResponse> handlingValidException(MethodArgumentNotValidException e){
-//        String enumKey = e.getFieldError().getDefaultMessage();
-//        ErrorCode errorCode = ErrorCode.INVALID_KEY;
-//
-//        try {
-//            errorCode = ErrorCode.valueOf(enumKey);
-//        } catch (IllegalArgumentException exception) {
-//            System.out.println(exception);
-//        }
-//
-//        ApiResponse apiResponse = new ApiResponse();
-//        apiResponse.setCode(errorCode.getCode());
-//        apiResponse.setMessage(errorCode.getMessage());
-//        return ResponseEntity.badRequest().body(apiResponse);
-//    }
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    ResponseEntity<ApiResponse> handlingValidException(MethodArgumentNotValidException e){
+        String enumKey = e.getFieldError().getDefaultMessage();
+        ErrorCode errorCode = ErrorCode.INVALID_KEY;
+
+        try {
+            errorCode = ErrorCode.valueOf(enumKey);
+        } catch (IllegalArgumentException exception) {
+            System.out.println(exception);
+        }
+
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setCode(errorCode.getCode());
+        apiResponse.setMessage(errorCode.getMessage());
+        return ResponseEntity.badRequest().body(apiResponse);
+    }
 
 }
