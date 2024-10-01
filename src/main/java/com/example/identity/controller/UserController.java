@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserController {
     UserService userService;
-    @PostMapping("/")
+    @PostMapping
     ApiResponse<UserResponse> create(@RequestBody @Valid UserCreationRequest request){
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setResult(userService.create(request));
@@ -30,23 +30,25 @@ public class UserController {
     }
 
     @PutMapping("{id}")
-    public UserResponse update(@PathVariable String id, @RequestBody UserUpdateRequest request){
-        return userService.update(id, request);
+    ApiResponse<UserResponse> update(@PathVariable String id, @RequestBody UserUpdateRequest request){
+        return ApiResponse.<UserResponse>builder().result(userService.update(id, request)).build();
     }
 
     @GetMapping("/")
-    public List<UserResponse> getAll(){
-        return userService.getAll();
+    ApiResponse<List<UserResponse>> getAll(){
+        return ApiResponse.<List<UserResponse>>builder()
+                .result(userService.getAll())
+                .build();
     }
 
     @GetMapping("{id}")
-    public UserResponse getById(@PathVariable String id){
-        return userService.getById(id);
+    ApiResponse<UserResponse> getById(@PathVariable String id){
+        return ApiResponse.<UserResponse>builder().result(userService.getById(id)).build();
     };
 
     @DeleteMapping("{id}")
-    public String delete(@PathVariable String id){
+    ApiResponse<String> delete(@PathVariable String id){
         userService.getById(id);
-        return "Deleted successful";
+        return ApiResponse.<String>builder().result("Deleted successful").build();
     };
 }
