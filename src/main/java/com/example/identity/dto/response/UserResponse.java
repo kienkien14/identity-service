@@ -1,5 +1,6 @@
 package com.example.identity.dto.response;
 
+import com.example.identity.entity.Role;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -22,5 +23,5 @@ public class UserResponse {
 
     LocalDate dob;
 
-    Set<String> roles;
+    Set<RoleResponse> roles;
 }
