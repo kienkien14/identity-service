@@ -16,23 +16,30 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class RoleService {
     RoleRepository roleRepository;
+    PermissionRepository permissionRepository;
     RoleMapper roleMapper;
 
     public RoleResponse create(RoleRequest request) {
-        Role role = roleMapper.toRole(request);
-        return roleMapper.toRoleResponse(roleRepository.save(role));
+        var role = roleMapper.toRole(request);
+        var permission = permissionRepository.findAllById(request.getPermissions());
+        role.setPermissions(new HashSet<>(permission));
+
+        roleRepository.save(role);
+        return roleMapper.toRoleResponse(role);
     }
 
     public List<RoleResponse> getAll() {
-        return roleRepository.findAll().stream().map(roleMapper::toRoleResponse).toList();
+        return roleRepository.findAll().stream()
+                .map(roleMapper::toRoleResponse).toList();
     }
 
     public void delete(String name) {

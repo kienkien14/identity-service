@@ -1,12 +1,10 @@
 package com.example.identity.mapper;
 
 import com.example.identity.dto.request.PermissionRequest;
-import com.example.identity.dto.request.UserCreationRequest;
 import com.example.identity.dto.response.PermissionResponse;
-import com.example.identity.dto.response.UserResponse;
 import com.example.identity.entity.Permission;
-import com.example.identity.entity.User;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface PermissionMapper {

@@ -1,9 +1,12 @@
 package com.example.identity.dto.request;
 
+import com.example.identity.validator.DobConstraint;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Builder
@@ -18,5 +21,8 @@ public class UserUpdateRequest {
 
     String lastName;
 
+    @DobConstraint(min = 18, message = "INVALID_DOB")
     LocalDate dob;
+
+    List<String> roles;
 }

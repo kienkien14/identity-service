@@ -8,6 +8,7 @@ import com.example.identity.enums.Role;
 import com.example.identity.exception.AppException;
 import com.example.identity.exception.ErrorCode;
 import com.example.identity.mapper.UserMapper;
+import com.example.identity.repository.RoleRepository;
 import com.example.identity.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 public class UserService {
+    RoleRepository roleRepository;
     UserRepository userRepository;
 
     UserMapper userMapper;
@@ -41,8 +43,18 @@ public class UserService {
         User user = userMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         HashSet<String> roles = new HashSet<>();
-        roles.add(Role.USER.name());
+//        roleRepository.findById(Perden)
 //        user.setRoles(roles);
+        return userMapper.toUserResponse(userRepository.save(user));
+    }
+
+    public UserResponse update(String id, UserUpdateRequest request) {
+        User user = userRepository.findById(id).orElseThrow();
+        userMapper.updateUser(user, request);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        var roles = roleRepository.findAllById(request.getRoles());
+        user.setRoles(new HashSet<>(roles));
+
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
@@ -54,14 +66,7 @@ public class UserService {
         return userMapper.toUserResponse(user);
     }
 
-    public UserResponse update(String id, UserUpdateRequest request) {
-        User user = userRepository.findById(id).orElseThrow();
-        userMapper.updateUser(user, request);
-
-        return userMapper.toUserResponse(userRepository.save(user));
-    }
-
-    @PreAuthorize("hasRole('ADMIN')") // kiem tra trc thuc hien
+    @PreAuthorize("hasAuthority('CREATE_DATA')") // kiem tra trc thuc hien
     public List<UserResponse> getAll() {
         log.info("In method get Users");
         return userRepository.findAll().stream().map(userMapper::toUserResponse).toList();
