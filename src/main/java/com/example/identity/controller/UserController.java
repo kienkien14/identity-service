@@ -1,19 +1,22 @@
 package com.example.identity.controller;
 
+import java.util.List;
+
+import jakarta.validation.Valid;
+
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+
 import com.example.identity.dto.request.ApiResponse;
 import com.example.identity.dto.request.UserCreationRequest;
 import com.example.identity.dto.request.UserUpdateRequest;
 import com.example.identity.dto.response.UserResponse;
 import com.example.identity.service.UserService;
-import jakarta.validation.Valid;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -25,6 +28,7 @@ public class UserController {
 
     @PostMapping
     ApiResponse<UserResponse> create(@RequestBody @Valid UserCreationRequest request) {
+        log.info("ControllerUser: Create User");
         return ApiResponse.<UserResponse>builder()
                 .result(userService.create(request))
                 .build();
@@ -32,9 +36,7 @@ public class UserController {
 
     @GetMapping("/info")
     ApiResponse<UserResponse> getInfo() {
-        return ApiResponse.<UserResponse>builder()
-                .result(userService.getInfo())
-                .build();
+        return ApiResponse.<UserResponse>builder().result(userService.getInfo()).build();
     }
 
     @PutMapping("{id}")
@@ -64,9 +66,6 @@ public class UserController {
     @DeleteMapping("{id}")
     ApiResponse<String> delete(@PathVariable String id) {
         userService.getById(id);
-        return ApiResponse.<String>builder()
-                .result("Deleted successful")
-                .build();
+        return ApiResponse.<String>builder().result("Deleted successful").build();
     }
-
 }

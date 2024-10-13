@@ -1,12 +1,12 @@
 package com.example.identity.dto.request;
 
-import com.example.identity.validator.DobConstraint;
-import jakarta.validation.constraints.Min;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-
 import java.time.LocalDate;
 import java.util.List;
+
+import com.example.identity.validator.DobConstraint;
+
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Data
 @Builder

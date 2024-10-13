@@ -1,20 +1,18 @@
 package com.example.identity.controller;
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.*;
+
 import com.example.identity.dto.request.ApiResponse;
-import com.example.identity.dto.request.PermissionRequest;
 import com.example.identity.dto.request.RoleRequest;
-import com.example.identity.dto.response.PermissionResponse;
 import com.example.identity.dto.response.RoleResponse;
-import com.example.identity.entity.Role;
-import com.example.identity.service.PermissionService;
 import com.example.identity.service.RoleService;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/role")
@@ -32,7 +30,7 @@ public class RoleController {
     }
 
     @GetMapping
-    ApiResponse<List<RoleResponse>> getAll(){
+    ApiResponse<List<RoleResponse>> getAll() {
         return ApiResponse.<List<RoleResponse>>builder()
                 .result(roleService.getAll())
                 .build();
@@ -41,9 +39,6 @@ public class RoleController {
     @DeleteMapping("{role}")
     ApiResponse<String> delete(@PathVariable String role) {
         roleService.delete(role);
-        return ApiResponse.<String>builder()
-                .result("Deleted successful")
-                .build();
+        return ApiResponse.<String>builder().result("Deleted successful").build();
     }
-
 }
