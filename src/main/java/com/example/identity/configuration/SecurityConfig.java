@@ -1,6 +1,5 @@
 package com.example.identity.configuration;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,10 +17,13 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-    @Autowired
-    CustomJwtDecoder customJwtDecoder;
+    private final CustomJwtDecoder customJwtDecoder;
 
-    private final String[] PUBLIC_ENDPOINTS = {
+    public SecurityConfig(CustomJwtDecoder customJwtDecoder){
+        this.customJwtDecoder = customJwtDecoder;
+    }
+
+    private static final String[] PUBLIC_ENDPOINTS = {
         "/users", "/auth/token", "auth/introspect", "/auth/logout", "/auth/refresh"
     };
 
