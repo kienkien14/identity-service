@@ -60,7 +60,7 @@ public class AuthenticationService {
     public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException, ParseException {
         var token = request.getToken();
         boolean isValid = true;
-        //spotless:off
+        // spotless:off
         try {
             verifyToken(token, false);
         } catch (AppException e) {
