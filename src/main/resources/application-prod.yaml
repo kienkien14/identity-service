@@ -1,0 +1,4 @@
+jwt:
+#  secretKey: "eM00d3PUEbmshCeGcLjfOiCFvvFRENGO2EVU0zdFfvbumB4xFf69Ow6Iv1YD5i5J"
+  valid-duration: 7200 #in second
+  refreshable-duration: 720000 #in second
